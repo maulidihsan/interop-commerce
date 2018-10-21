@@ -1,0 +1,18 @@
+syntax = "proto3";
+package api;
+
+service Promo {
+  rpc getPromo(Empty) returns (Products){}
+}
+
+message Product {
+  string item = 1;
+  string images = 2;
+  string stocks = 3;
+}
+
+message Products {
+  repeated Product product = 1;
+}
+
+message Empty {}
