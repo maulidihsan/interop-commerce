@@ -6,10 +6,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
 
-	"github.com/maulidihsan/pkg/api"
+	"github.com/maulidihsan/flashdeal-webservice/pkg/api"
 )
 
 func main() {
@@ -30,7 +29,7 @@ func main() {
 	defer cancel()
 
 	// Call Create
-	response, err := c.GetPromo(ctx)
+	response, err := c.GetPromo(ctx, nil)
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
