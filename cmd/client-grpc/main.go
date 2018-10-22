@@ -2,22 +2,17 @@ package main
 
 import (
 	"context"
-	"flag"
 	"log"
 	"time"
-
+	"fmt"
 	"google.golang.org/grpc"
 
 	"github.com/maulidihsan/flashdeal-webservice/pkg/api"
 )
 
 func main() {
-	// get configuration
-	address := flag.String("server", "", "gRPC server in format host:port")
-	flag.Parse()
-
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*address, grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:5001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -29,9 +24,11 @@ func main() {
 	defer cancel()
 
 	// Call Create
-	response, err := c.GetPromo(ctx, nil)
+	response, err := c.GetPromo(ctx, &api.Empty{})
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
-	log.Printf("Create result: <%+v>\n\n", response)
+	for _, product := range response.Product{
+		fmt.Printf("item: %s, images: %s, stocks: %s\n", product.GetItem(), product.GetImages(), product.GetStocks())
+	}
 }
