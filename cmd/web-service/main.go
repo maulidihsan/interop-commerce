@@ -17,6 +17,7 @@ type ProductInfo struct {
 	Item string `json:"item"`
 	Images string `json:"images"`
 	Stocks string `json:"stocks"`
+	Harga string `json:"harga"`
 }
 func main() {
 	router := gin.Default()
@@ -36,17 +37,21 @@ func main() {
 				if err != nil {
 					log.Fatalf("Create failed: %v", err)
 				}
-				var arr []ProductInfo
-				var prod ProductInfo
+				var productList []ProductInfo
+				var item ProductInfo
 				for _, product := range response.Product{
-					prod = ProductInfo{
+					item = ProductInfo{
 						Item: product.GetItem(),
 						Images: product.GetImages(),
 						Stocks: product.GetStocks(),
+						Harga: product.GetHarga(),
 					}
-					arr = append(arr, prod)
+					productList = append(productList, item)
 				}
-				c.JSON(200, arr)
+				c.JSON(200, gin.H{
+					"time": response.GetTime(),
+					"products": productList,
+				})
 		}
 	})
 	router.Run(":8080")

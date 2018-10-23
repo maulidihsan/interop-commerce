@@ -9,10 +9,12 @@ message Product {
   string item = 1;
   string images = 2;
   string stocks = 3;
+  string harga = 4;
 }
 
 message Products {
   repeated Product product = 1;
+  string time = 2;
 }
 
 message Empty {}

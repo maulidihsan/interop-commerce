@@ -28,7 +28,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
+	fmt.Printf("time: %s\n", response.GetTime())
 	for _, product := range response.Product{
-		fmt.Printf("item: %s, images: %s, stocks: %s\n", product.GetItem(), product.GetImages(), product.GetStocks())
+		fmt.Printf("item: %s, images: %s, stocks: %s, harga: %s\n", product.GetItem(), product.GetImages(), product.GetStocks(), product.GetHarga())
 	}
 }
