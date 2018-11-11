@@ -1,1 +1,1 @@
-go build -i -v -o bin/rest github.com/maulidihsan/flashdeal-webservice/cmd/web-service
+go build -i -v -o bin/blibli github.com/maulidihsan/flashdeal-webservice/cmd/blibli-adaptor

@@ -1,0 +1,40 @@
+syntax = "proto3";
+package v1;
+
+import "catalog.proto";
+
+service OrderService {
+	rpc CreateOrder(Order) returns (Response){}
+	rpc GetOrders(Token) returns (Orders){}
+	rpc UpdateOrder(OrderId) returns (Response){}
+	rpc DeleteOrder(OrderId) returns (Response){}
+}
+
+message Person {
+	string nama = 1;
+	string alamat = 2;
+	string telpon = 3;
+	string email = 4;
+}
+
+message Order {
+	enum Vendor {
+		BLIBLI = 0;
+		BUKALAPAK = 1;
+		MURAHID = 2;
+	}
+	Person pembeli = 1;
+	Product barang = 2;
+}
+
+message OrderId {
+	string orderId = 1;
+}
+
+message Token {
+	string token = 1;
+}
+
+message Orders {
+	repeated Order orders = 1;
+}

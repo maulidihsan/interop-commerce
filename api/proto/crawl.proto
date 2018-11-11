@@ -1,20 +1,11 @@
 syntax = "proto3";
-package api;
+package v1;
 
-service Promo {
-  rpc getPromo(Empty) returns (Products){}
+import "catalog.proto";
+service Crawler {
+	rpc GetProducts(Urls) returns (Products){}
 }
 
-message Product {
-  string item = 1;
-  string images = 2;
-  string stocks = 3;
-  string harga = 4;
+message Urls {
+	repeated string url = 1;
 }
-
-message Products {
-  repeated Product product = 1;
-  string time = 2;
-}
-
-message Empty {}

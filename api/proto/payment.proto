@@ -1,0 +1,32 @@
+syntax = "proto3";
+package v1;
+
+import "catalog.proto";
+import "order.proto";
+
+service PaymentService {
+	rpc CreatePayment(OrderId) returns (Payment){}
+	rpc UpdateStatus(PaymentId) returns (Response){}
+	rpc DeletePayment(PaymentId) returns (Response){}
+	rpc GetPayment(Token) returns (Payments){}
+}
+
+message PaymentId {
+	string paymentId = 1;
+}
+
+message Payment {
+	enum Vendor {
+		BLIBLI = 0;
+		BUKALAPAK = 1;
+		MURAHID = 2;
+	}
+	string orderId = 1;
+	int64 expiredIn = 2;
+	bool paid = 3;
+	int32 value = 4;
+}
+
+message Payments {
+	repeated Payment payments = 1;
+}
