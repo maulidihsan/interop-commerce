@@ -5,15 +5,15 @@ import "catalog.proto";
 
 service OrderService {
 	rpc CreateOrder(Order) returns (Response){}
-	rpc GetOrders(Token) returns (Orders){}
-	rpc UpdateOrder(OrderId) returns (Response){}
+	rpc GetOrders(UserId) returns (Orders){}
+	rpc UpdateStatusOrder(Update) returns (Response){}
 	rpc DeleteOrder(OrderId) returns (Response){}
 }
 
 message Person {
 	string nama = 1;
 	string alamat = 2;
-	string telpon = 3;
+	string telepon = 3;
 	string email = 4;
 }
 
@@ -23,16 +23,24 @@ message Order {
 		BUKALAPAK = 1;
 		MURAHID = 2;
 	}
-	Person pembeli = 1;
-	Product barang = 2;
+	Vendor vendor = 1;
+	Person pembeli = 2;
+	Product barang = 3;
+	string status = 4;
+	string created_at = 5;
+}
+
+message Update {
+	string id = 1;
+	string status = 2;
 }
 
 message OrderId {
 	string orderId = 1;
 }
 
-message Token {
-	string token = 1;
+message UserId {
+	string id = 1;
 }
 
 message Orders {

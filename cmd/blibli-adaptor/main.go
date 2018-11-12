@@ -6,9 +6,12 @@ import (
 	"fmt"
 
 	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/catalog/repository"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/catalog/usecase"
+	catalogRepo "github.com/maulidihsan/flashdeal-webservice/pkg/catalog/repository"
+	catalogService "github.com/maulidihsan/flashdeal-webservice/pkg/catalog/usecase"
+	orderRepo "github.com/maulidihsan/flashdeal-webservice/pkg/order/repository"
+	orderService "github.com/maulidihsan/flashdeal-webservice/pkg/order/usecase"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	blibli "github.com/maulidihsan/flashdeal-webservice/cmd/blibli-adaptor/handler"
 )
 
@@ -25,10 +28,15 @@ func main() {
 		log.Fatalln("unable to connect to mongodb")
 	}
 
-	catalog := repository.NewCatalogCollection(session.Copy(), "crawler", "products")
-	us := usecase.NewCatalogUseCase(catalog)
+	catalog := catalogRepo.NewCatalogCollection(session.Copy(), "crawler", "products")
+	catalogUseCase := catalogService.NewCatalogUseCase(catalog)
+
+	order := orderRepo.NewOrderCollection(session.Copy(), "crawler", "orders")
+	orderUseCase := orderService.NewOrderUseCase(order)
 	grpcServer := grpc.NewServer()
-	blibli.NewCatalogServerGrpc(grpcServer, us)
+	blibli.NewCatalogServerGrpc(grpcServer, catalogUseCase)
+	blibli.NewOrderServerGrpc(grpcServer, orderUseCase)
+	reflection.Register(grpcServer)
 	if err := grpcServer.Serve(listen); err != nil {
 		log.Fatalf("Failed to serve: %s", err)
 	}

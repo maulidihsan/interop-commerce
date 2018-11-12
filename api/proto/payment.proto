@@ -8,7 +8,7 @@ service PaymentService {
 	rpc CreatePayment(OrderId) returns (Payment){}
 	rpc UpdateStatus(PaymentId) returns (Response){}
 	rpc DeletePayment(PaymentId) returns (Response){}
-	rpc GetPayment(Token) returns (Payments){}
+	rpc GetPayment(UserId) returns (Payments){}
 }
 
 message PaymentId {
@@ -21,10 +21,11 @@ message Payment {
 		BUKALAPAK = 1;
 		MURAHID = 2;
 	}
-	string orderId = 1;
-	int64 expiredIn = 2;
-	bool paid = 3;
-	int32 value = 4;
+	Vendor vendor = 1;
+	string orderId = 2;
+	int64 expiredIn = 3;
+	bool paid = 4;
+	int32 value = 5;
 }
 
 message Payments {

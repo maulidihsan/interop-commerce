@@ -47,6 +47,7 @@ func(c CatalogArray) toCatalogs() []models.Catalog {
 		//fmt.Println(product)
 		catalogs = append(catalogs, models.Catalog{
 			Id: product.Id.Hex(),
+			NamaProduk: product.NamaProduk,
 			Url: product.Url,
 			Gambar: product.Gambar,
 			Harga: product.Harga,
