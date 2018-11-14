@@ -16,9 +16,9 @@ func NewOrderCollection(session *mongo.Session, dbName string, collectionName st
 	return &OrderCollection{collection}
 }
 
-func(p *OrderCollection) GetOrders(id string) ([]models.Order, error) {
+func(p *OrderCollection) GetOrders(email string) ([]models.Order, error) {
 	var models OrderArray
-	err := p.collection.Find(bson.M{"_id": bson.ObjectIdHex(id)}).All(&models)
+	err := p.collection.Find(bson.M{"pembeli.email": email}).All(&models)
 	return models.toOrders(), err
 }
 

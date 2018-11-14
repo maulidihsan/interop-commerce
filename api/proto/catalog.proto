@@ -6,12 +6,12 @@ service CatalogService {
   rpc UpdateCatalog(Products) returns (Response){}
 }
 
+enum Vendor {
+	BLIBLI = 0;
+	BUKALAPAK = 1;
+}
+
 message Product {
-	enum Vendor {
-		BLIBLI = 0;
-		BUKALAPAK = 1;
-		MURAHID = 2;
-	}
 	Vendor vendor = 1;
 	string produk = 2;
 	string gambar = 3;
@@ -21,7 +21,8 @@ message Product {
 }
 
 message Products {
-	repeated Product products = 1;
+	Vendor vendor = 1;
+	repeated Product products = 2;
 }
 
 message Keyword {

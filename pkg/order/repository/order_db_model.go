@@ -47,6 +47,7 @@ func newOrderModel(o *models.Order) (*orderModel) {
 			Harga: o.Produk.Harga,
 			Kategori: o.Produk.Kategori,
 		},
+		Status: o.Status,
 		CreatedAt: time.Now(),
 	}
 }

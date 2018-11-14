@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial("localhost:7777", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:8888", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -24,8 +24,21 @@ func main() {
 	defer cancel()
 
 	// Call Create
-	response, err := c.DeleteOrder(ctx, &api.OrderId{
-		OrderId: "5be9cdb4305904c27447ef81",
+	response, err := c.CreateOrder(ctx, &api.Order{
+		Vendor: 0,
+		Pembeli: &api.Person{
+			Nama: "Maulid Ihsan",
+			Alamat: "JAKAL",
+			Email: "maulid@maul.id",
+			Telepon: "010101",
+		},
+		Barang: &api.Product{
+			Produk: "Asus Zenfone",
+			Link: "https://blibli.com/",
+			Gambar: "https://blibli.com/",
+			Harga: 7000000,
+			Kategori: "handphone",
+		},
 	})
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)

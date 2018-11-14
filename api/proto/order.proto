@@ -18,25 +18,23 @@ message Person {
 }
 
 message Order {
-	enum Vendor {
-		BLIBLI = 0;
-		BUKALAPAK = 1;
-		MURAHID = 2;
-	}
 	Vendor vendor = 1;
-	Person pembeli = 2;
-	Product barang = 3;
-	string status = 4;
-	string created_at = 5;
+	string id = 2;
+	Person pembeli = 3;
+	Product barang = 4;
+	string status = 5;
+	int64 created_at = 6;
 }
 
 message Update {
-	string id = 1;
-	string status = 2;
+	Vendor vendor = 1;
+	string id = 2;
+	string status = 3;
 }
 
 message OrderId {
-	string orderId = 1;
+	Vendor vendor = 1;
+	string orderId = 2;
 }
 
 message UserId {
