@@ -57,3 +57,15 @@ func(c CatalogArray) toCatalogs() []models.Catalog {
 	}
 	return catalogs
 }
+
+func(u *catalogModel) toCatalog() *models.Catalog {
+	return &models.Catalog{
+		Id: u.Id.Hex(),
+		NamaProduk: u.NamaProduk,
+		Url: u.Url,
+		Gambar: u.Gambar,
+		Harga: u.Harga,
+		Kategori: u.Kategori,
+		CreatedAt: u.CreatedAt,
+	}
+}

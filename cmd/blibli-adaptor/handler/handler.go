@@ -13,22 +13,17 @@ type server struct {
 	order orderService.OrderUsecase
 }
 
-func NewOrderServerGrpc(gserver *grpc.Server, orderUsecase orderService.OrderUsecase) {
 
-	orderServer := &server{
+func NewServerGrpc(gserver *grpc.Server, catalogUsecase catalogService.CatalogUsecase, orderUsecase orderService.OrderUsecase) {
+
+	s := &server{
+		catalog: catalogUsecase,
 		order: orderUsecase,
 	}
-
-	v1.RegisterOrderServiceServer(gserver, orderServer)
+	v1.RegisterCatalogServiceServer(gserver, s)
+	v1.RegisterOrderServiceServer(gserver, s)
 }
 
-func NewCatalogServerGrpc(gserver *grpc.Server, catalogUsecase catalogService.CatalogUsecase) {
-
-	catalogServer := &server{
-		catalog: catalogUsecase,
-	}
-	v1.RegisterCatalogServiceServer(gserver, catalogServer)
-}
 
 func (s *server) transformResponseRPC(ar *models.Response) *v1.Response {
 	if ar == nil {

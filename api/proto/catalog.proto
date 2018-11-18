@@ -2,7 +2,8 @@ syntax = "proto3";
 package v1;
 
 service CatalogService {
-  rpc GetCatalog(Keyword) returns (Products){}
+	rpc GetCatalog(Keyword) returns (Products){}
+	rpc GetByCategory(Keyword) returns (Products){}
   rpc UpdateCatalog(Products) returns (Response){}
 }
 
@@ -13,11 +14,12 @@ enum Vendor {
 
 message Product {
 	Vendor vendor = 1;
-	string produk = 2;
-	string gambar = 3;
-  int32 harga = 4;
-  string kategori = 5;
-	string link = 6;
+	string id = 2;
+	string produk = 3;
+	string gambar = 4;
+  int32 harga = 5;
+  string kategori = 6;
+	string link = 7;
 }
 
 message Products {

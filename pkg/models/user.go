@@ -1,15 +1,15 @@
 package models
 
 type User struct {
-	Id string `json:"id"`
-	Email string `json:"email"`
-	Password string `json:"password"`
-	Nama string `json:"nama"`
-	Alamat string `json:"alamat"`
-	Telepon string `json:"telepon"`
+	Id string `json:"id,omitempty"`
+	Email string `json:"email" validate:"required,email"` 
+	Password string `json:"password,omitempty" validate:"required"`
+	Nama string `json:"nama" validate:"required"`
+	Alamat string `json:"alamat" validate:"required"`
+	Telepon string `json:"telepon" validate:"required,numeric"`
 }
 
-type UserService interface {
-	AddUser(u *User) error
-	GetByEmail(email string) (*User,error)
+type Credential struct {
+	Email string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }

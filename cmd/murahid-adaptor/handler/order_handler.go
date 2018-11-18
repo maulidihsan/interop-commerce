@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"time"
 	"log"
 	"context"
@@ -37,7 +38,7 @@ func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response, e
 	c := v1.NewOrderServiceClient(blibliServer)
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
-
+	fmt.Println(in.Vendor)
 	if (in.Vendor.String() == "BLIBLI") {
 		response, err := c.CreateOrder(ctx, in)
 		if err != nil {

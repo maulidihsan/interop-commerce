@@ -25,6 +25,18 @@ func(p *CatalogCollection) GetCatalog(keyword string) ([]models.Catalog,error) {
 	return models.toCatalogs(), err
 }
 
+func(p *CatalogCollection) GetByCategory(keyword string) ([]models.Catalog, error){
+	var products CatalogArray
+	err := p.collection.Find(bson.M{"kategori": bson.M{"$regex": bson.RegEx{fmt.Sprintf(".*%s.*", keyword), ""}}}).All(&products)
+	return products.toCatalogs(), err
+}
+
+func(p *CatalogCollection) GetById(id string) (*models.Catalog, error) {
+	product := catalogModel{}
+	err := p.collection.FindId(bson.ObjectIdHex(id)).One(&product)
+	return product.toCatalog(), err
+}
+
 func(p *CatalogCollection) UpdateCatalog(c []models.Catalog) (*models.Response, error) {
 	var productToInsert CatalogArray
 	for _, product := range c {

@@ -26,7 +26,8 @@ type Product struct {
 type orderModel struct {
 	Id bson.ObjectId `bson:"_id,omitempty"`
 	Pembeli Pembeli `bson:"pembeli"`
-	Produk Product	`bson:"url"`
+	Produk Product	`bson:"produk"`
+	Kuantitas int32 `bson:"pcs"`
 	Status string `bson:"status"`
 	CreatedAt time.Time `bson:"created_at"`
 }
@@ -47,6 +48,7 @@ func newOrderModel(o *models.Order) (*orderModel) {
 			Harga: o.Produk.Harga,
 			Kategori: o.Produk.Kategori,
 		},
+		Kuantitas: o.Kuantitas,
 		Status: o.Status,
 		CreatedAt: time.Now(),
 	}
@@ -59,7 +61,7 @@ func(o OrderArray) toOrders() []models.Order {
 	for _, order := range o {
 		orders = append(orders, models.Order{
 			Id: order.Id.Hex(),
-			Pembeli: models.User{
+			Pembeli: &models.User{
 				Nama: order.Pembeli.Nama,
 				Alamat: order.Pembeli.Alamat,
 				Telepon: order.Pembeli.Telepon,
@@ -72,6 +74,7 @@ func(o OrderArray) toOrders() []models.Order {
 				Harga: order.Produk.Harga,
 				Kategori: order.Produk.Kategori,
 			},
+			Kuantitas: order.Kuantitas,
 			Status: order.Status,
 			CreatedAt: order.CreatedAt,
 		})

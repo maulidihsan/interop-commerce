@@ -1,60 +1,71 @@
 package main
 
 import (
-	// "flag"
+	"flag"
+	"fmt"
+	"os"
 	// "io/ioutil"
-	"log"
+	// "log"
 	// "net/http"
 	// "strings"
-	"time"
-	"context"
+	// "time"
+	// "context"
 
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/api"
+	// "github.com/gin-gonic/gin"
+	// "google.golang.org/grpc"
+	"github.com/maulidihsan/flashdeal-webservice/config"
+	"github.com/maulidihsan/flashdeal-webservice/cmd/web-service/server"
 )
-type ProductInfo struct {
-	Item string `json:"item"`
-	Images string `json:"images"`
-	Stocks string `json:"stocks"`
-	Harga string `json:"harga"`
-}
+// type ProductInfo struct {
+// 	Item string `json:"item"`
+// 	Images string `json:"images"`
+// 	Stocks string `json:"stocks"`
+// 	Harga string `json:"harga"`
+// }
 func main() {
-	router := gin.Default()
-	router.GET("/api/promo/:src", func(c *gin.Context) {
-		switch source := c.Param("src"); source {
-			default:
-				conn, err := grpc.Dial("localhost:5001", grpc.WithInsecure())
-				if err != nil {
-					log.Fatalf("did not connect: %v", err)
-				}
-				defer conn.Close()
+	environment := flag.String("e", "dev", "")
+	flag.Usage = func() {
+		fmt.Println("Usage: server -e {mode}")
+		os.Exit(1)
+	}
+	flag.Parse()
+	config.Init(*environment)
+	server.Init()
+	// router := gin.Default()
+	// router.GET("/api/promo/:src", func(c *gin.Context) {
+	// 	switch source := c.Param("src"); source {
+	// 		default:
+	// 			conn, err := grpc.Dial("localhost:5001", grpc.WithInsecure())
+	// 			if err != nil {
+	// 				log.Fatalf("did not connect: %v", err)
+	// 			}
+	// 			defer conn.Close()
 
-				service := api.NewPromoClient(conn)
-				ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-				defer cancel()
-				response, err := service.GetPromo(ctx, &api.Empty{})
-				if err != nil {
-					log.Fatalf("Create failed: %v", err)
-				}
-				var productList []ProductInfo
-				var item ProductInfo
-				for _, product := range response.Product{
-					item = ProductInfo{
-						Item: product.GetItem(),
-						Images: product.GetImages(),
-						Stocks: product.GetStocks(),
-						Harga: product.GetHarga(),
-					}
-					productList = append(productList, item)
-				}
-				c.JSON(200, gin.H{
-					"time": response.GetTime(),
-					"products": productList,
-				})
-		}
-	})
-	router.Run(":8080")
+	// 			service := api.NewPromoClient(conn)
+	// 			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	// 			defer cancel()
+	// 			response, err := service.GetPromo(ctx, &api.Empty{})
+	// 			if err != nil {
+	// 				log.Fatalf("Create failed: %v", err)
+	// 			}
+	// 			var productList []ProductInfo
+	// 			var item ProductInfo
+	// 			for _, product := range response.Product{
+	// 				item = ProductInfo{
+	// 					Item: product.GetItem(),
+	// 					Images: product.GetImages(),
+	// 					Stocks: product.GetStocks(),
+	// 					Harga: product.GetHarga(),
+	// 				}
+	// 				productList = append(productList, item)
+	// 			}
+	// 			c.JSON(200, gin.H{
+	// 				"time": response.GetTime(),
+	// 				"products": productList,
+	// 			})
+	// 	}
+	// })
+	// router.Run(":8080")
 	// t := time.Now().In(time.UTC)
 	// pfx := t.Format(time.RFC3339Nano)
 

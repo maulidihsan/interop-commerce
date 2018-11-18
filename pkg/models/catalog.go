@@ -1,9 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+)
 
 type Catalog struct {
-	Id string `json:"id"`
+	Id string `json:"id" validate:"required"`
+	Vendor v1.Vendor `json:"vendor"`
 	NamaProduk string `json:"product_name"`
 	Url string	`json:"link"`
 	Gambar string	`json:"image"`

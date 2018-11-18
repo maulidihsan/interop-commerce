@@ -2,8 +2,8 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"log"
+	// "fmt"
 
 	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
@@ -14,7 +14,8 @@ func (s *server) transformCatalogRPC(ar *models.Catalog) *v1.Product {
 		return nil
 	}
 	res := &v1.Product{
-		Vendor: 0,
+		Id: ar.Id,
+		Vendor: v1.Vendor_BLIBLI,
 		Produk: ar.NamaProduk,
 		Gambar:     ar.Gambar,
 		Harga:   ar.Harga,
@@ -40,8 +41,8 @@ func (s *server) GetCatalog(ctx context.Context, in *v1.Keyword) (*v1.Products, 
 	if in != nil {
 		keyword = in.Keyword
 	}
+
 	list, err := s.catalog.GetCatalog(keyword)
-	fmt.Printf("%+v", list)
 	if err != nil {
 		log.Println(err.Error())
 		return nil, err
@@ -52,7 +53,31 @@ func (s *server) GetCatalog(ctx context.Context, in *v1.Keyword) (*v1.Products, 
 		arrProducts[i] = ar
 	}
 	result := &v1.Products{
-		Vendor: 0,
+		Vendor: v1.Vendor_BLIBLI,
+		Products: arrProducts,
+	}
+	// fmt.Println("enumExample", result.Vendor)
+	return result, nil
+}
+
+func (s *server) GetByCategory(ctx context.Context, in *v1.Keyword) (*v1.Products, error) {
+	keyword := ""
+	if in != nil {
+		keyword = in.Keyword
+	}
+
+	list, err := s.catalog.GetByCategory(keyword)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	arrProducts := make([]*v1.Product, len(list))
+	for i, a := range list {
+		ar := s.transformCatalogRPC(&a)
+		arrProducts[i] = ar
+	}
+	result := &v1.Products{
+		Vendor: v1.Vendor_BLIBLI,
 		Products: arrProducts,
 	}
 	return result, nil

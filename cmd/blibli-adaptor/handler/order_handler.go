@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"context"
 	"log"
 	
@@ -13,7 +14,7 @@ func (s *server) transformOrderRPC(in *models.Order) *v1.Order {
 		return nil
 	}
 	res := &v1.Order{
-		Vendor: 0,
+		Vendor: v1.Vendor_BLIBLI,
 		Id: in.Id,
 		Pembeli: &v1.Person{
 			Nama: in.Pembeli.Nama,
@@ -34,25 +35,32 @@ func (s *server) transformOrderRPC(in *models.Order) *v1.Order {
 	return res
 }
 
-func (s *server) transformOrderData(in *v1.Order) models.Order{
-
-	res := models.Order{
-		Pembeli: models.User{
+func (s *server) transformOrderData(in *v1.Order) (*models.Order, error) {
+	fmt.Println("ASW", in.Barang.GetId())
+	product, err := s.catalog.GetById(in.Barang.GetId())
+	if (err != nil) {
+		fmt.Println("ASU")
+		return nil, err
+	}
+	res := &models.Order{
+		Pembeli: &models.User{
 			Nama: in.Pembeli.Nama,
 			Alamat: in.Pembeli.Alamat,
 			Telepon: in.Pembeli.Telepon,
 			Email: in.Pembeli.Email,
 		},
 		Produk: models.Catalog{
-			NamaProduk: in.Barang.Produk,
-			Url: in.Barang.Link,
-			Gambar: in.Barang.Gambar,
-			Harga: in.Barang.Harga,
-			Kategori: in.Barang.Kategori,
+			Id: in.Barang.Id,
+			NamaProduk: product.NamaProduk,
+			Url: product.Url,
+			Gambar: product.Gambar,
+			Harga: product.Harga,
+			Kategori: product.Kategori,
 		},
+		Kuantitas: in.Kuantitas,
 		Status: "diterima",
 	}
-	return res
+	return res, nil
 }
 
 func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders,error) {
@@ -74,9 +82,13 @@ func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders,error
 }
 
 func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response,error) {
-	if(in.Vendor == 0) {
-		newOrder := s.transformOrderData(in)
-		created, err := s.order.CreateOrder(&newOrder)
+	if(in.Vendor.String() == "BLIBLI") {
+		newOrder, err := s.transformOrderData(in)
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		}
+		created, err := s.order.CreateOrder(newOrder)
 		if err != nil {
 			log.Println(err.Error())
 			return nil, err

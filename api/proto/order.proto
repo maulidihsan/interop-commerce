@@ -22,8 +22,9 @@ message Order {
 	string id = 2;
 	Person pembeli = 3;
 	Product barang = 4;
-	string status = 5;
-	int64 created_at = 6;
+	int32 kuantitas = 5;
+	string status = 6;
+	int64 created_at = 7;
 }
 
 message Update {

@@ -1,9 +1,9 @@
 package models
 
 type Person struct {
-	Id string `json:"id"`
-	Email string `json:"email"`
-	Nama string `json:"nama"`
-	Alamat string `json:"alamat"`
-	Telepon string `json:"telepon"`
+	Id string `json:"id" validate:"omitempty"`
+	Email string `json:"email" validate:"email,required"`
+	Nama string `json:"nama" validate:"required"`
+	Alamat string `json:"alamat" validate:"required"`
+	Telepon string `json:"telepon" validate:"required"`
 }
