@@ -27,8 +27,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
-	murahid.NewCatalogServerGrpc(grpcServer)
-	murahid.NewOrderServerGrpc(grpcServer)
+	murahid.NewGrpcServer(grpcServer)
 	reflection.Register(grpcServer)
 
 	if err := grpcServer.Serve(listen); err != nil {

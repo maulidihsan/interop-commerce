@@ -3,23 +3,12 @@ package handler
 import (
 	"google.golang.org/grpc"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
-	orderService "github.com/maulidihsan/flashdeal-webservice/pkg/order/usecase"
-	catalogService "github.com/maulidihsan/flashdeal-webservice/pkg/catalog/usecase"
 )
 
-type server struct {
-	catalog catalogService.CatalogUsecase
-	order orderService.OrderUsecase
-}
+type server struct {}
 
-func NewOrderServerGrpc(gserver *grpc.Server) {
+func NewGrpcServer(gserver *grpc.Server) {
 
-	orderServer := &server{}
-	v1.RegisterOrderServiceServer(gserver, orderServer)
-}
-
-func NewCatalogServerGrpc(gserver *grpc.Server) {
-
-	catalogServer := &server{}
-	v1.RegisterCatalogServiceServer(gserver, catalogServer)
+	s := &server{}
+	v1.RegisterOrderServiceServer(gserver, s)
 }
