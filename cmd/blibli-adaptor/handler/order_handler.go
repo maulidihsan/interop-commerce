@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"context"
 	"log"
 	
@@ -23,12 +22,14 @@ func (s *server) transformOrderRPC(in *models.Order) *v1.Order {
 			Email: in.Pembeli.Email,
 		},
 		Barang: &v1.Product{
+			Id: in.Produk.Id,
 			Produk: in.Produk.NamaProduk,
 			Link: in.Produk.Url,
 			Gambar: in.Produk.Gambar,
 			Harga: in.Produk.Harga,
 			Kategori: in.Produk.Kategori,
 		},
+		Kuantitas: in.Kuantitas,
 		Status: in.Status,
 		CreatedAt: in.CreatedAt.Unix(),
 	}
@@ -36,10 +37,8 @@ func (s *server) transformOrderRPC(in *models.Order) *v1.Order {
 }
 
 func (s *server) transformOrderData(in *v1.Order) (*models.Order, error) {
-	fmt.Println("ASW", in.Barang.GetId())
 	product, err := s.catalog.GetById(in.Barang.GetId())
 	if (err != nil) {
-		fmt.Println("ASU")
 		return nil, err
 	}
 	res := &models.Order{

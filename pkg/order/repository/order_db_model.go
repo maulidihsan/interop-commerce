@@ -15,7 +15,7 @@ type Pembeli struct {
 }
 
 type Product struct {
-	// Id bson.ObjectId `bson:"id_product"`
+	Id bson.ObjectId `bson:"id_product"`
 	NamaProduk string `bson:"product_name"`
 	Url string	`bson:"link"`
 	Gambar string	`bson:"image"`
@@ -39,9 +39,10 @@ func newOrderModel(o *models.Order) (*orderModel) {
 			Nama: o.Pembeli.Nama,
 			Alamat: o.Pembeli.Alamat,
 			Telepon: o.Pembeli.Telepon,
-			Email: o.Pembeli.Telepon,
+			Email: o.Pembeli.Email,
 		},
 		Produk: Product{
+			Id: bson.ObjectIdHex(o.Produk.Id),
 			NamaProduk: o.Produk.NamaProduk,
 			Url: o.Produk.Url,
 			Gambar: o.Produk.Gambar,
@@ -68,6 +69,7 @@ func(o OrderArray) toOrders() []models.Order {
 				Email: order.Pembeli.Email,
 			},
 			Produk: models.Catalog{
+				Id: order.Produk.Id.Hex(),
 				NamaProduk: order.Produk.NamaProduk,
 				Url: order.Produk.Url,
 				Gambar: order.Produk.Gambar,

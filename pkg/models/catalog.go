@@ -13,5 +13,5 @@ type Catalog struct {
 	Gambar string	`json:"image"`
 	Harga int32 `json:"harga"`
 	Kategori string	`json:"kategori"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 }

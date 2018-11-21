@@ -72,7 +72,7 @@ func NewRouter() *gin.Engine {
 		{
 			order := controllers.NewOrderController(pool, middlewares.GetValidator())
 			orderGroup.Use(middlewares.AuthMiddleware())
-			// orderGroup.GET("/", order.GetUserOrders)
+			orderGroup.GET("/", order.Get)
 			orderGroup.POST("/add", order.Add)
 		}
 	}

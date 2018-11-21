@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"time"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
 	"encoding/json"
 	"net/http"
@@ -23,6 +24,30 @@ func NewOrderController(p *grpcpool.Pool, v *validator.Validate) *OrderControlle
 	}
 }
 
+func vendorTagging(in *v1.Order) models.Order {
+	return models.Order{
+		Vendor: in.Vendor,
+		Id: in.Id,
+		Pembeli: &models.User{
+			Nama: in.Pembeli.Nama,
+			Alamat: in.Pembeli.Alamat,
+			Telepon: in.Pembeli.Telepon,
+			Email: in.Pembeli.Email,
+		},
+		Produk: models.Catalog{
+			Id: in.Barang.Id,
+			NamaProduk: in.Barang.Produk,
+			Url: in.Barang.Link,
+			Gambar: in.Barang.Gambar,
+			Harga: in.Barang.Harga,
+			Kategori: in.Barang.Kategori,
+		},
+		Kuantitas: in.Kuantitas,
+		Status: in.Status,
+		CreatedAt: time.Unix(in.CreatedAt, 0),
+	}
+}
+
 func (p OrderController) Add(c *gin.Context) {
 	u := c.MustGet("user").(string)
 	var user models.User
@@ -31,6 +56,7 @@ func (p OrderController) Add(c *gin.Context) {
 		c.AbortWithStatus(500)
 		return
 	}
+
 
 	var order models.Order
 	c.Bind(&order)
@@ -70,4 +96,35 @@ func (p OrderController) Add(c *gin.Context) {
 		Kuantitas: order.Kuantitas,
 	})
 	c.JSON(http.StatusOK, res)
+}
+
+func(p OrderController) Get(c *gin.Context) {
+	u := c.MustGet("user").(string)
+	var user models.User
+	err := json.Unmarshal([]byte(u), &user)
+	if(err != nil) {
+		c.AbortWithStatus(500)
+		return
+	}
+	conn, err := p.pool.Get(c)
+	defer conn.Close()
+	if err != nil {
+		c.JSON(500, gin.H{"message": "Can't connect to adapter", "error": err})
+		c.Abort()
+		return
+	}
+	client := v1.NewOrderServiceClient(conn.ClientConn)
+	data, err := client.GetOrders(c, &v1.UserId{
+		Id: user.Email,
+	})
+	if err != nil {
+		c.JSON(404, gin.H{"message": "Not Found", "error": err})
+		c.Abort()
+		return
+	}
+	orders := make([]models.Order, len(data.GetOrders()))
+	for i, order := range data.GetOrders(){
+		orders[i] = vendorTagging(order)
+	}
+	c.JSON(http.StatusOK, gin.H{"orders": orders})
 }

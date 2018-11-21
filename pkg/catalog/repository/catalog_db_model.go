@@ -15,7 +15,7 @@ type catalogModel struct {
 	Gambar string	`bson:"image"`
 	Harga int32 `bson:"harga"`
 	Kategori string	`bson:"kategori"`
-	CreatedAt time.Time `bson:"created_at"`
+	CreatedAt *time.Time `bson:"created_at"`
 }
 
 func catalogModelIndex() mgo.Index {
