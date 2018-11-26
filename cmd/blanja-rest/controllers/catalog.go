@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
 	"net/http"
+	"sort"
 	"github.com/gin-gonic/gin"
 	"github.com/processout/grpc-go-pool"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
@@ -11,6 +12,10 @@ import (
 type CatalogController struct {
 	pool *grpcpool.Pool
 }
+type ByPrice []models.Catalog
+func (a ByPrice) Len() int 			 { return len(a) }
+func (a ByPrice) Less(i, j int) bool { return a[i].Harga < a[j].Harga }
+func (a ByPrice) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 func NewCatalogController(p *grpcpool.Pool) *CatalogController {
 	return &CatalogController{p}
@@ -51,6 +56,8 @@ func (p CatalogController) Get(c *gin.Context) {
 		pr := p.VendorTagging(product)
 		products[i] = pr
 	}
+
+	sort.Sort(ByPrice(products))
 	c.JSON(http.StatusOK, gin.H{"products": products})
 }
 

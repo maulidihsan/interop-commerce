@@ -30,18 +30,18 @@ func main() {
 	c := config.GetConfig()
 
 
-	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", c.GetInt32("blibli.port")))
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", c.GetInt32("blibli.grpc.port")))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("database.ip"), c.GetString("database.port")), c.GetString("database.dbadmin"), c.GetString("database.user"), c.GetString("database.password"))
+	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("blibli.database.ip"), c.GetString("blibli.database.port")), c.GetString("blibli.database.dbadmin"), c.GetString("blibli.database.user"), c.GetString("blibli.database.password"))
 	if err != nil {
 		log.Printf("%v", err)
 		log.Fatalln("unable to connect to mongodb")
 	}
 
-	catalog := catalogRepo.NewCatalogCollection(session.Copy(), "crawler", "products")
+	catalog := catalogRepo.NewCatalogCollection(session.Copy(), c.GetString("blibli.database.name"), "catalogs")
 	catalogUseCase := catalogService.NewCatalogUseCase(catalog)
 
 	order := orderRepo.NewOrderCollection(session.Copy(), "crawler", "orders")

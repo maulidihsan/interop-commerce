@@ -9,7 +9,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	murahid "github.com/maulidihsan/flashdeal-webservice/cmd/murahid-adaptor/handler"
+	murahid "github.com/maulidihsan/flashdeal-webservice/cmd/blanja-adaptor/handler"
 	"github.com/maulidihsan/flashdeal-webservice/config"
 )
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	config.Init(*environment)
 	c := config.GetConfig()
 
-	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", c.GetInt32("murahid.grpc.port")))
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", c.GetInt32("blanja.grpc.port")))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}

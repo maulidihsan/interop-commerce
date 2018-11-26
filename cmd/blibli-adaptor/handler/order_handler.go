@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"log"
-	
+	"fmt"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
 )
@@ -81,6 +81,7 @@ func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders,error
 }
 
 func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response,error) {
+	fmt.Println("Creating Order")
 	if(in.Vendor.String() == "BLIBLI") {
 		newOrder, err := s.transformOrderData(in)
 		if err != nil {

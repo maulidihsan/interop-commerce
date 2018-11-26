@@ -10,6 +10,7 @@ type OrderUsecase interface {
 	UpdateStatusOrder(id string, status string) (*models.Response, error)
 	CreateOrder(*models.Order) (*models.Response, error)
 	DeleteOrder(id string) (*models.Response, error)
+	GetAllOrders() ([]models.Order, error)
 }
 
 type orderUsecase struct {
@@ -30,6 +31,10 @@ func(o *orderUsecase) CreateOrder(newOrder *models.Order) (*models.Response, err
 
 func(o *orderUsecase) DeleteOrder(id string) (*models.Response,error) {
 	return o.orderRepos.DeleteOrder(id)
+}
+
+func(o *orderUsecase) GetAllOrders() ([]models.Order, error) {
+	return o.orderRepos.GetAllOrders()
 }
 
 func NewOrderUseCase(o *repository.OrderCollection) OrderUsecase {

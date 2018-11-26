@@ -25,6 +25,7 @@ func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders, erro
 	if err != nil {
 		log.Fatalf("Request failed: %v", err)
 	}
+	fmt.Println("Getting user orders")
 	return response, nil
 }
 
@@ -38,7 +39,7 @@ func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response, e
 	c := v1.NewOrderServiceClient(blibliServer)
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
-	fmt.Println(in.Vendor)
+	fmt.Println("Creating Order for ", in.Vendor)
 	if (in.Vendor.String() == "BLIBLI") {
 		response, err := c.CreateOrder(ctx, in)
 		if err != nil {

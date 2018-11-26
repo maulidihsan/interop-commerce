@@ -1,0 +1,4 @@
+FROM scratch
+ADD bin/blanja-adaptor/server /
+ADD config /config/
+CMD ["/server", "-e", "prod"]

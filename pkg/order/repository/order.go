@@ -7,4 +7,5 @@ type OrderService interface {
 	CreateOrder(order *models.Order) (*models.Response, error)
 	UpdateStatusOrder(id string, status string) (*models.Response, error)
 	DeleteOrder(id string) (*models.Response, error)
+	GetAllOrders() ([]models.Order, error)
 }

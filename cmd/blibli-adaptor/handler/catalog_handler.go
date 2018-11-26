@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"log"
-	// "fmt"
+	"fmt"
 
 	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
@@ -56,7 +56,7 @@ func (s *server) GetCatalog(ctx context.Context, in *v1.Keyword) (*v1.Products, 
 		Vendor: v1.Vendor_BLIBLI,
 		Products: arrProducts,
 	}
-	// fmt.Println("enumExample", result.Vendor)
+	fmt.Println("Getting Catalog: ", in.GetKeyword())
 	return result, nil
 }
 
@@ -80,6 +80,7 @@ func (s *server) GetByCategory(ctx context.Context, in *v1.Keyword) (*v1.Product
 		Vendor: v1.Vendor_BLIBLI,
 		Products: arrProducts,
 	}
+	fmt.Println("Getting Catalog By Category: ", in.GetKeyword())
 	return result, nil
 }
 

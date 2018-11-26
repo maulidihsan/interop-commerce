@@ -8,5 +8,5 @@ import (
 func Init() {
 	config := config.GetConfig()
 	r := NewRouter()
-	r.Run(fmt.Sprintf(":%s", config.GetString("murahid.rest.port")))
+	r.Run(fmt.Sprintf(":%s", config.GetString("blanja.rest.port")))
 }

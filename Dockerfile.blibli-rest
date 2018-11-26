@@ -1,0 +1,4 @@
+FROM scratch
+ADD bin/blibli-rest/server /
+ADD config /config/
+CMD ["/server", "-e", "prod"]

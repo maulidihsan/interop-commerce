@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc"
 	"github.com/processout/grpc-go-pool"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
-	"github.com/maulidihsan/flashdeal-webservice/cmd/web-service/middlewares"
+	"github.com/maulidihsan/flashdeal-webservice/cmd/blanja-rest/middlewares"
 	// "github.com/maulidihsan/flashdeal-webservice/cmd/web-service/middlewares"
-	"github.com/maulidihsan/flashdeal-webservice/cmd/web-service/controllers"
+	"github.com/maulidihsan/flashdeal-webservice/cmd/blanja-rest/controllers"
 	userRepo "github.com/maulidihsan/flashdeal-webservice/pkg/user/repository"
 	userService "github.com/maulidihsan/flashdeal-webservice/pkg/user/usecase"
 )
@@ -23,7 +23,7 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Recovery())
 
 	c := config.GetConfig()
-	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("database.ip"), c.GetString("database.port")), c.GetString("database.dbadmin"), c.GetString("database.user"), c.GetString("database.password"))
+	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("blanja.database.ip"), c.GetString("blanja.database.port")), c.GetString("blanja.database.dbadmin"), c.GetString("blanja.database.user"), c.GetString("blanja.database.password"))
 	if err != nil {
 		log.Printf("%v", err)
 		log.Fatalln("unable to connect to mongodb")
@@ -31,11 +31,11 @@ func NewRouter() *gin.Engine {
 
 	var factory grpcpool.Factory
 	factory = func() (*grpc.ClientConn, error) {
-		conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.GetString("murahid.grpc.ip"), c.GetString("murahid.grpc.port")), grpc.WithInsecure())
+		conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.GetString("blanja.grpc.ip"), c.GetString("blanja.grpc.port")), grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("Failed to start gRPC connection: %v", err)
 		}
-		fmt.Printf("Connected to grpc at %s:%s \n", c.GetString("murahid.grpc.ip"), c.GetString("murahid.grpc.port"))
+		fmt.Printf("Connected to grpc at %s:%s \n", c.GetString("blanja.grpc.ip"), c.GetString("blanja.grpc.port"))
 		return conn, err
 	}
 	pool, err := grpcpool.New(factory, 5, 5, time.Second)
@@ -51,7 +51,7 @@ func NewRouter() *gin.Engine {
 	{
 		userGroup := v1.Group("users")
 		{
-			userDB := userRepo.NewUserCollection(session.Copy(), "crawler", "users")
+			userDB := userRepo.NewUserCollection(session.Copy(), c.GetString("blanja.database.name"), "users")
 			userUsecase := userService.NewUserUseCase(userDB)
 			userController := controllers.NewUserController(userUsecase, middlewares.GetValidator())
 			userGroup.POST("/", userController.Register)

@@ -1,7 +1,6 @@
 package repository
 
 import (
-	// "fmt"
 	"gopkg.in/mgo.v2/bson"
 	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
 	"gopkg.in/mgo.v2"
@@ -73,4 +72,10 @@ func(p *OrderCollection) DeleteOrder(id string) (*models.Response, error) {
 			Message: "success to insert",
 		}, err
 	}
+}
+
+func(p *OrderCollection) GetAllOrders() ([]models.Order, error) {
+	var models OrderArray
+	err := p.collection.Find(bson.M{}).All(&models)
+	return models.toOrders(), err
 }

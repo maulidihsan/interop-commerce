@@ -25,7 +25,7 @@ func (s *server) GetCatalog(ctx context.Context, in *v1.Keyword) (*v1.Products, 
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
-	fmt.Println("enum", response.Vendor)
+	fmt.Println("Getting Catalog: ", in.GetKeyword())
 	return response, nil
 }
 
@@ -43,6 +43,7 @@ func (s *server) GetByCategory(ctx context.Context, in *v1.Keyword) (*v1.Product
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
 	}
+	fmt.Println("Getting Catalog By Category: ", in.GetKeyword())
 	return response, nil
 }
 
