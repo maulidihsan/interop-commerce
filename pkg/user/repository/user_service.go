@@ -3,8 +3,8 @@ package repository
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/mongo"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 )
 
 type UserCollection struct {

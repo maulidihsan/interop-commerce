@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 	"gopkg.in/go-playground/validator.v9"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/user/usecase"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
-	"github.com/maulidihsan/flashdeal-webservice/config"
+	"github.com/maulidihsan/interop-commerce/pkg/user/usecase"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
+	"github.com/maulidihsan/interop-commerce/config"
 )
 
 type UserController struct{

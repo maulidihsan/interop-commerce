@@ -5,16 +5,15 @@ import (
 	"time"
 	"log"
 
-	"github.com/maulidihsan/flashdeal-webservice/config"
+	"github.com/maulidihsan/interop-commerce/config"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"github.com/processout/grpc-go-pool"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
-	"github.com/maulidihsan/flashdeal-webservice/cmd/blanja-rest/middlewares"
-	// "github.com/maulidihsan/flashdeal-webservice/cmd/web-service/middlewares"
-	"github.com/maulidihsan/flashdeal-webservice/cmd/blanja-rest/controllers"
-	userRepo "github.com/maulidihsan/flashdeal-webservice/pkg/user/repository"
-	userService "github.com/maulidihsan/flashdeal-webservice/pkg/user/usecase"
+	"github.com/maulidihsan/interop-commerce/pkg/mongo"
+	"github.com/maulidihsan/interop-commerce/cmd/blanja-rest/middlewares"
+	"github.com/maulidihsan/interop-commerce/cmd/blanja-rest/controllers"
+	userRepo "github.com/maulidihsan/interop-commerce/pkg/user/repository"
+	userService "github.com/maulidihsan/interop-commerce/pkg/user/usecase"
 )
 
 func NewRouter() *gin.Engine {
@@ -42,7 +41,7 @@ func NewRouter() *gin.Engine {
     if err != nil {
         log.Fatalf("Failed to create gRPC pool: %v", err)
     }
-
+	router.Use(middlewares.CORS())
 	router.GET("/", new(controllers.HealthController).Status)
 	// router.Use(middlewares.AuthMiddleware())
 

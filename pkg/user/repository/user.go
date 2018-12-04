@@ -1,6 +1,6 @@
 package repository
 
-import models "github.com/maulidihsan/flashdeal-webservice/pkg/models"
+import models "github.com/maulidihsan/interop-commerce/pkg/models"
 
 type UserService interface {
 	AddUser(newUser *models.User) error

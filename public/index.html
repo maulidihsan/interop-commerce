@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Blibli Order Management (Simulation)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bulma.min.css" />
+</head>
+<body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top is-info">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+            <img src="img/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="96" height="30">
+            </a>
+        </div>
+        <div class="navbar-start">
+            <div class="navbar-item">
+            <h2><b>Order Management Simulation</b></h2>
+            </div>
+        </div>
+    </nav>
+    <div id="app">
+        <section class="section">
+            <div class="container is-fullhd">
+                <h1 class="title">Order Masuk</h1>
+                <prod-modal></prod-modal>
+                <update-status></update-status>
+                <pembeli-modal></pembeli-modal>
+                <div class="columns">
+                    <div class="column">
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th><abbr title="Order ID">Id</abbr></th>
+                                    <th><abbr title="Nama"></abbr>Nama Produk</th>
+                                    <th><abbr title="Kategori"></abbr>Kategori</th>
+                                    <th><abbr title="Pieces">Pcs</abbr></th>
+                                    <th><abbr title="Nilai Pembayaran">Pembayaran</abbr></th>
+                                    <th><abbr title="Pembeli">Pembeli</abbr></th>
+                                    <th><abbr title="Status">Status</abbr></th>
+                                    <th><abbr title="Date">Tanggal Pemesanan</abbr></th>
+                                    <th><abbr title="Action">Action</abbr></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="order in orders">
+                                    <td>{{order.id.slice(-5)}}</td>
+                                    <td><a v-on:click='selectProduk(order.id)'>{{order.produk.product_name}}</a></td>
+                                    <td>{{order.produk.kategori}}</td>
+                                    <td>{{order.pcs}}</td>
+                                    <td>{{(order.pcs * order.produk.harga).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}}</td>
+                                    <td><a v-on:click='selectPerson(order.id)'>{{order.pembeli.nama}}</a></td>
+                                    <td><span class="tag is-info">{{order.status}}</span></td>
+                                    <td>{{order.created_at | moment}}</td>
+                                    <td><a v-on:click='updateStatus(order.id)'>Update</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/id.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

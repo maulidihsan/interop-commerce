@@ -3,13 +3,13 @@ package controllers
 import (
 	"fmt"
 	"time"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 	"encoding/json"
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/processout/grpc-go-pool"
 	"gopkg.in/go-playground/validator.v9"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
 )
 
 type OrderController struct {

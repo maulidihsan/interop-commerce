@@ -1,6 +1,6 @@
 package repository
 
-import models "github.com/maulidihsan/flashdeal-webservice/pkg/models"
+import models "github.com/maulidihsan/interop-commerce/pkg/models"
 
 type CatalogService interface {
 	GetCatalog(keyword string) ([]models.Catalog, error)

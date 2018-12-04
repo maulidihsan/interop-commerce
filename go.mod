@@ -1,1 +1,1 @@
-module github.com/maulidihsan/flashdeal-webservice
+module github.com/maulidihsan/interop-commerce

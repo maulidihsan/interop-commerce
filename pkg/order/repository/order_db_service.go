@@ -2,9 +2,9 @@ package repository
 
 import (
 	"gopkg.in/mgo.v2/bson"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 	"gopkg.in/mgo.v2"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
+	"github.com/maulidihsan/interop-commerce/pkg/mongo"
 )
 type OrderCollection struct {
 	collection *mgo.Collection

@@ -9,8 +9,8 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	murahid "github.com/maulidihsan/flashdeal-webservice/cmd/blanja-adaptor/handler"
-	"github.com/maulidihsan/flashdeal-webservice/config"
+	murahid "github.com/maulidihsan/interop-commerce/cmd/blanja-adaptor/handler"
+	"github.com/maulidihsan/interop-commerce/config"
 )
 func main() {
 	environment := flag.String("e", "dev", "")

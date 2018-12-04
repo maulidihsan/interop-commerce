@@ -7,17 +7,19 @@ import (
 	"context"
 
 	"google.golang.org/grpc"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/config"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
 )
 
 func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders, error) {
-	blibliServer, err := grpc.Dial("localhost:7777", grpc.WithInsecure())
+	conf := config.GetConfig()
+	biruServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("biru.grpc.ip"), conf.GetString("biru.grpc.port")), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer blibliServer.Close()
+	defer biruServer.Close()
 
-	c := v1.NewOrderServiceClient(blibliServer)
+	c := v1.NewOrderServiceClient(biruServer)
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
@@ -30,18 +32,32 @@ func (s *server) GetOrders(ctx context.Context, in *v1.UserId) (*v1.Orders, erro
 }
 
 func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response, error) {
-	blibliServer, err := grpc.Dial("localhost:7777", grpc.WithInsecure())
+	conf := config.GetConfig()
+	biruServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("biru.grpc.ip"), conf.GetString("biru.grpc.port")), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer blibliServer.Close()
+	defer biruServer.Close()
 
-	c := v1.NewOrderServiceClient(blibliServer)
+	merahServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("merah.grpc.ip"), conf.GetString("merah.grpc.port")), grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer biruServer.Close()
+
+	c1 := v1.NewOrderServiceClient(biruServer)
+	c2 := v1.NewOrderServiceClient(merahServer)
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 	fmt.Println("Creating Order for ", in.Vendor)
 	if (in.Vendor.String() == "BLIBLI") {
-		response, err := c.CreateOrder(ctx, in)
+		response, err := c1.CreateOrder(ctx, in)
+		if err != nil {
+			log.Fatalf("Request failed: %v", err)
+		}
+		return response, nil
+	} else if (in.Vendor.String() == "BUKALAPAK") {
+		response, err := c2.CreateOrder(ctx, in)
 		if err != nil {
 			log.Fatalf("Request failed: %v", err)
 		}
@@ -57,18 +73,32 @@ func (s *server) CreateOrder(ctx context.Context, in *v1.Order) (*v1.Response, e
 }
 
 func (s *server) UpdateStatusOrder(ctx context.Context, in *v1.Update) (*v1.Response, error) {
-	blibliServer, err := grpc.Dial("localhost:7777", grpc.WithInsecure())
+	conf := config.GetConfig()
+	biruServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("biru.grpc.ip"), conf.GetString("biru.grpc.port")), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer blibliServer.Close()
+	defer biruServer.Close()
 
-	c := v1.NewOrderServiceClient(blibliServer)
+	merahServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("merah.grpc.ip"), conf.GetString("merah.grpc.port")), grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer biruServer.Close()
+
+	c1 := v1.NewOrderServiceClient(biruServer)
+	c2 := v1.NewOrderServiceClient(merahServer)
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	if (in.Vendor.String() == "BLIBLI") {
-		response, err := c.UpdateStatusOrder(ctx, in)
+		response, err := c1.UpdateStatusOrder(ctx, in)
+		if err != nil {
+			log.Fatalf("Request failed: %v", err)
+		}
+		return response, nil
+	} else if (in.Vendor.String() == "BUKALAPAK") {
+		response, err := c2.UpdateStatusOrder(ctx, in)
 		if err != nil {
 			log.Fatalf("Request failed: %v", err)
 		}
@@ -84,18 +114,33 @@ func (s *server) UpdateStatusOrder(ctx context.Context, in *v1.Update) (*v1.Resp
 }
 
 func (s *server) DeleteOrder(ctx context.Context, in *v1.OrderId) (*v1.Response, error) {
-	blibliServer, err := grpc.Dial("localhost:7777", grpc.WithInsecure())
+	conf := config.GetConfig()
+	biruServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("biru.grpc.ip"), conf.GetString("biru.grpc.port")), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer blibliServer.Close()
+	defer biruServer.Close()
 
-	c := v1.NewOrderServiceClient(blibliServer)
+	merahServer, err := grpc.Dial(fmt.Sprintf("%s:%s", conf.GetString("merah.grpc.ip"), conf.GetString("merah.grpc.port")), grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer biruServer.Close()
+
+	c1 := v1.NewOrderServiceClient(biruServer)
+	c2 := v1.NewOrderServiceClient(merahServer)
+
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	if (in.Vendor.String() == "BLIBLI") {
-		response, err := c.DeleteOrder(ctx, in)
+		response, err := c1.DeleteOrder(ctx, in)
+		if err != nil {
+			log.Fatalf("Request failed: %v", err)
+		}
+		return response, nil
+	} else if (in.Vendor.String() == "BUKALAPAK") {
+		response, err := c2.DeleteOrder(ctx, in)
 		if err != nil {
 			log.Fatalf("Request failed: %v", err)
 		}

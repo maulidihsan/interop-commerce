@@ -6,7 +6,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/maulidihsan/flashdeal-webservice/config"
+	"github.com/maulidihsan/interop-commerce/config"
 )
 
 func AuthMiddleware() gin.HandlerFunc {

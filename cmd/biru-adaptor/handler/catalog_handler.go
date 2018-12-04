@@ -5,8 +5,8 @@ import (
 	"log"
 	"fmt"
 
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 )
 
 func (s *server) transformCatalogRPC(ar *models.Catalog) *v1.Product {

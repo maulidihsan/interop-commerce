@@ -2,7 +2,7 @@ package models
 
 import (
 	"time"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
 )
 
 type Catalog struct {

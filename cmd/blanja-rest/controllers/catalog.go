@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 	"net/http"
 	"sort"
 	"github.com/gin-gonic/gin"
 	"github.com/processout/grpc-go-pool"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
 )
 
 type CatalogController struct {

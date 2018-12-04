@@ -1,4 +1,4 @@
 FROM scratch
-ADD bin/blibli-adaptor/server /
+ADD bin/biru-adaptor/server /
 ADD config /config/
 CMD ["/server", "-e", "prod"]

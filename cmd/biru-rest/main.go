@@ -1,15 +1,16 @@
 package main
 
 import (
+	"github.com/gin-contrib/static"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 	"github.com/gin-gonic/gin"
-	"github.com/maulidihsan/flashdeal-webservice/config"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/mongo"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/order/repository"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/order/usecase"
+	"github.com/maulidihsan/interop-commerce/config"
+	"github.com/maulidihsan/interop-commerce/pkg/mongo"
+	"github.com/maulidihsan/interop-commerce/pkg/order/repository"
+	"github.com/maulidihsan/interop-commerce/pkg/order/usecase"
 )
 
 type UpdateStatus struct {
@@ -26,15 +27,16 @@ func main() {
 	flag.Parse()
 	config.Init(*environment)
 	c := config.GetConfig()
-	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("blibli.database.ip"), c.GetString("blibli.database.port")), c.GetString("blibli.database.dbadmin"), c.GetString("blibli.database.user"), c.GetString("blibli.database.password"))
+	session, err := mongo.NewSession(fmt.Sprintf("%s:%s", c.GetString("biru.database.ip"), c.GetString("biru.database.port")), c.GetString("biru.database.dbadmin"), c.GetString("biru.database.user"), c.GetString("biru.database.password"))
 	if err != nil {
 		log.Printf("%v", err)
 		log.Fatalln("unable to connect to mongodb")
 	}
-
-	db := repository.NewOrderCollection(session.Copy(), c.GetString("blibli.database.name"), "orders")
+	db := repository.NewOrderCollection(session.Copy(), c.GetString("biru.database.name"), "orders")
 	usecase := usecase.NewOrderUseCase(db)
 	r := gin.Default()
+
+	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 	r.Use(gin.Logger())
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -60,5 +62,5 @@ func main() {
 		}
 		c.JSON(200, &res)
 	})
-	r.Run(fmt.Sprintf(":%s", c.GetString("blibli.rest.port")))
+	r.Run(fmt.Sprintf(":%s", c.GetString("biru.rest.port")))
 }

@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	models "github.com/maulidihsan/flashdeal-webservice/pkg/models"
-	repository "github.com/maulidihsan/flashdeal-webservice/pkg/catalog/repository"
+	models "github.com/maulidihsan/interop-commerce/pkg/models"
+	repository "github.com/maulidihsan/interop-commerce/pkg/catalog/repository"
 )
 
 type CatalogUsecase interface {

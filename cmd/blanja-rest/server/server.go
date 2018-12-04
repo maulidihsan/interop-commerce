@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"github.com/maulidihsan/flashdeal-webservice/config"
+	"github.com/maulidihsan/interop-commerce/config"
 )
 
 func Init() {

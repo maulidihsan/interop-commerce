@@ -1,6 +1,6 @@
 package repository
 
-import models "github.com/maulidihsan/flashdeal-webservice/pkg/models"
+import models "github.com/maulidihsan/interop-commerce/pkg/models"
 
 type OrderService interface {
 	GetOrders(email string) ([]models.Order, error)

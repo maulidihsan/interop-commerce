@@ -13,8 +13,8 @@ import (
 
 	// "github.com/gin-gonic/gin"
 	// "google.golang.org/grpc"
-	"github.com/maulidihsan/flashdeal-webservice/config"
-	"github.com/maulidihsan/flashdeal-webservice/cmd/blanja-rest/server"
+	"github.com/maulidihsan/interop-commerce/config"
+	"github.com/maulidihsan/interop-commerce/cmd/blanja-rest/server"
 )
 // type ProductInfo struct {
 // 	Item string `json:"item"`

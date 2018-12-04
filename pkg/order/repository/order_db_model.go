@@ -3,7 +3,7 @@ package repository
 import (
 	"time"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 )
 
 type Pembeli struct {

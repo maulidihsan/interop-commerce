@@ -5,7 +5,7 @@ import (
 	//"fmt"
 	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 )
 
 type catalogModel struct {

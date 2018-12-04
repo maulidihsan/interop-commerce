@@ -2,10 +2,10 @@ package handler
 
 import (
 	"google.golang.org/grpc"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
-	orderService "github.com/maulidihsan/flashdeal-webservice/pkg/order/usecase"
-	catalogService "github.com/maulidihsan/flashdeal-webservice/pkg/catalog/usecase"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/models"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
+	orderService "github.com/maulidihsan/interop-commerce/pkg/order/usecase"
+	catalogService "github.com/maulidihsan/interop-commerce/pkg/catalog/usecase"
+	"github.com/maulidihsan/interop-commerce/pkg/models"
 )
 
 type server struct {

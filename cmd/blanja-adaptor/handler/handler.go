@@ -2,7 +2,7 @@ package handler
 
 import (
 	"google.golang.org/grpc"
-	"github.com/maulidihsan/flashdeal-webservice/pkg/v1"
+	"github.com/maulidihsan/interop-commerce/pkg/v1"
 )
 
 type server struct {}
