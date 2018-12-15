@@ -23,7 +23,7 @@ func (s *server) GetCatalog(ctx context.Context, in *v1.Keyword) (*v1.Products, 
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer biruServer.Close()
+	defer merahServer.Close()
 
 	c1 := v1.NewCatalogServiceClient(biruServer)
 	c2 := v1.NewCatalogServiceClient(merahServer)
@@ -59,7 +59,7 @@ func (s *server) GetByCategory(ctx context.Context, in *v1.Keyword) (*v1.Product
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer biruServer.Close()
+	defer merahServer.Close()
 
 	c1 := v1.NewCatalogServiceClient(biruServer)
 	c2 := v1.NewCatalogServiceClient(merahServer)

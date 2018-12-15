@@ -7,7 +7,7 @@ import (
 
 type Order struct {
 	Id string `json:"id"`
-	Vendor v1.Vendor `json:"vendor"`
+	Vendor v1.Vendor `json:"vendor" validate:"numeric,required"`
 	Pembeli *User `json:"pembeli" validate:"omitempty"`
 	Produk Catalog	`json:"produk" validate:"required"`
 	Kuantitas int32 `json:"pcs" validate:"numeric,required"`

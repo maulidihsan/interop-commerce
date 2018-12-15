@@ -43,7 +43,6 @@ func NewRouter() *gin.Engine {
     }
 	router.Use(middlewares.CORS())
 	router.GET("/", new(controllers.HealthController).Status)
-	// router.Use(middlewares.AuthMiddleware())
 
 	middlewares.ValidatorInit()
 	v1 := router.Group("v1")
