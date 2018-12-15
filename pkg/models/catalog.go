@@ -7,7 +7,7 @@ import (
 
 type Catalog struct {
 	Id string `json:"id" validate:"required"`
-	Vendor v1.Vendor `json:"vendor"`
+	Vendor v1.Vendor `json:"vendor" validate:"required"`
 	NamaProduk string `json:"product_name"`
 	Url string	`json:"link"`
 	Gambar string	`json:"image"`
